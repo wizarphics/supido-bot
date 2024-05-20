@@ -45,8 +45,8 @@ class SendTaskReminders extends Command
     {
         $userName = $user->username;
         // Make request to task management system to fetch tasks for user
-        $response = Http::withHeader('adminsecretkey', env('WEB_ADMIN_SECRET', 'JHASADKsadfas123456'))
-            ->get(env('WEB_API', "https://stg-api.supido.xyz/auth/getUserData"), compact('userName'))->object();
+        $response = Http::withHeader('adminsecretkey', env('WEB_ADMIN_SECRET'))
+            ->get(env('WEB_API', "https://api.supido.xyz/auth/getUserData"), compact('userName'))->object();
         $user->referral_link = $response->userDetails->referralLink;
         $user->save();
 
