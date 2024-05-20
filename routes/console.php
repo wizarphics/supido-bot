@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Encryption\Encrypter;
+use Illuminate\Foundation\Console\ClosureCommand;
 use Illuminate\Foundation\Console\KeyGenerateCommand;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
@@ -23,14 +24,20 @@ Artisan::command('inspire', function () {
 // bv4OtPWUxWe0
 
 Artisan::command('bot:start', function () {
-    Telegram::removeWebhook();
-    $r = Telegram::setWebhook([
-        'url' => 'https://sandbox-bot.wizarphics.com/<token>/webhook'
-        //'url' => 'https://25v3gqkw-8000.uks1.devtunnels.ms/<token>/webhook'
-        // https://25v3gqkw-8000.uks1.devtunnels.ms/
-    ]);
-
-    dd($r);
+    /** @var ClosureCommand $this */
+    try {
+        $url = env('BOT_WEBHOOK_URL');
+        Telegram::removeWebhook();
+        $r = Telegram::setWebhook(compact('url'));
+        if ($r) {
+            return $this->alert("Bot webhook updated successfully!\r\nWebhook url:{$url}");
+        } else {
+            return $this->warn("Error updating bot webhook url: {$url}");
+        }
+    } catch (Throwable|Error $t) {
+        $this->error("Error updating bot webhook url {$t->getMessage()}");
+    }
+    exit(-1);
 })->purpose('Sets telegram webhook url');
 
 Artisan::command('token:generate', function () {
