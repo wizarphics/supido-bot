@@ -57,30 +57,9 @@ class ReferralLinkCommand extends Command
             $user->referral_link = $response->object()->userDetails->referralLink;
             $user->save();
 
-            $k = Keyboard::make()
-
-                ->setIsPersistent(true)
-
-                ->inline()
-
-                ->row([
-
-                    Keyboard::inlineButton([
-
-                        'text' => 'Copy Link to Clipboard',
-
-                        'url' => $user->referral_link
-
-                    ])
-                ]);
-
-            $lk = str_replace(['-'], ['\-'], $user->referral_link);
-
             $this->replyWithChatAction(['action' => Actions::TYPING]);
             $this->replyWithMessage([
-                'text' => "*Your Referral link is:* $lk",
-                'parse_mode' => 'MarkdownV2',
-                'inline_keyboard' => $k
+                'text' => "Your Referral link is:".PHP_EOL.$user->referral_link,
             ]);
         }
     }
