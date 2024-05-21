@@ -32,6 +32,7 @@ class AirdropStatusCommand extends Command
 
     public function handle()
     {
+
         $update =  $this->getUpdate();
 
         # firstname from Update object to be used as fallback.
@@ -47,10 +48,10 @@ class AirdropStatusCommand extends Command
         } else {
             $userName = $user->username;
             $response = Http::withHeader('adminsecretkey', env('WEB_ADMIN_SECRET', 'JHASADKsadfas123456'))
-                ->get(env('WEB_API', "https://stg-api.supido.xyz/auth/getUserData"), compact('userName'))
-                ->json();
+                ->get(env('WEB_API', "https://stg-api.supido.xyz/auth/getUserData"), compact('userName'));
             $this->replyWithChatAction(['action' => Actions::TYPING]);
             if ($response->ok()) {
+                $response = $response->json();
                 $tUnCompletedTasks = count($response['unCompletedTasks']);
                 $tCompletedTasks = count($response['completedTasks']);
                 $this->replyWithMessage([
