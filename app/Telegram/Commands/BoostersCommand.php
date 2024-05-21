@@ -55,7 +55,7 @@ class BoostersCommand extends Command
 
                 if (count($boosters) > 0) {
                     foreach ($boosters as $booster) {
-                        $msg .= "*{$booster->type}:* {$booster->quantity}" . PHP_EOL;
+                        $msg .= "*{$booster['type']}:* {$booster['quantity']}" . PHP_EOL;
                     }
                 } else {
                     $msg .= "No active boosters found\!\." . PHP_EOL;
