@@ -8,13 +8,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Queue;
+use Telegram\Bot\Api;
 use Telegram\Bot\Keyboard\Keyboard;
-use Telegram\Bot\Laravel\Facades\Telegram;
+// use Telegram\Bot\Laravel\Facades\Telegram;
 
 class UpdateController extends Controller
 {
 
-    public function __construct(protected Telegram $telegram, protected Request $request)
+    public function __construct(protected Api $telegram, protected Request $request)
     {
     }
 
