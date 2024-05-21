@@ -26,8 +26,8 @@ class UpdateController extends Controller
             'telegramId' => 'required|string',
             // 'telegramPhoto' => 'nullable|string',
             // 'telegramUser' => 'nullable|string',
-            'twitterUsername' => 'required|string',
-            'walletAddress' => 'required|string'
+            'TwitterUsername' => 'required|string',
+            'walletAddress' => 'nullable|string'
         ]);
 
         $user = User::updateOrCreate(
@@ -45,10 +45,10 @@ class UpdateController extends Controller
 
 
         $k = Keyboard::make()
-        ->inlineButton([
-            'text' => 'Link to SUPIDO Website',
-            'url' => $link
-        ]);
+            ->inlineButton([
+                'text' => 'Link to SUPIDO Website',
+                'url' => $link
+            ]);
 
         $this->telegram->sendMessage([
             'chat_id' => $user->chat_id,
