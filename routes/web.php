@@ -32,15 +32,15 @@ Route::post('/<token>/webhook', function () {
 });
 
 Route::post('/platforms/{token}/webhook/task-completed', [UpdateController::class, 'taskCompleted'])->name('task-completed.webhook')
-    ->whereIn('token', [env('APP_TOKEN')]);
-Route::post('/platforms/{token}/webhook/new-task', [UpdateController::class, 'newTask'])->name('new-task.webhook')->whereIn('token', [env('APP_TOKEN')]);
-Route::post('/platforms/{token}/register', [UpdateController::class, 'register'])->name('register.webhook')->whereIn('token', [env('APP_TOKEN')]);
+    ->whereIn('token', [env('APP_TOKEN'), env('TELEGRAM_BOT_TOKEN')]);
+Route::post('/platforms/{token}/webhook/new-task', [UpdateController::class, 'newTask'])->name('new-task.webhook')->whereIn('token', [env('APP_TOKEN'), env('TELEGRAM_BOT_TOKEN')]);
+Route::post('/platforms/{token}/register', [UpdateController::class, 'register'])->name('register.webhook')->whereIn('token', [env('APP_TOKEN'), env('TELEGRAM_BOT_TOKEN')]);
 
 //     $user = User::firstWhere([
 //         'username' => $request->twitterScreenName,
 //     ]);
 
-//     if ($action === 'task-completed') {
+//     if ($action === 'task-completed') {.
 //         if ($user) {
 //             $telegram->sendMessage([
 //                 'chat_id' => $user->chat_id,
