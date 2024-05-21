@@ -55,7 +55,7 @@ class AirdropStatusCommand extends Command
                 $tUnCompletedTasks = count($response['unCompletedTasks']);
                 $tCompletedTasks = count($response['completedTasks']);
                 $this->replyWithMessage([
-                    'text' => "#Airdrop Status:" . PHP_EOL . PHP_EOL . "*Total Referrals:* {$response['totalRefferalsCount']}" . PHP_EOL . "*Total Points Earned:* {$response['totalNumberOfPointsEarned']}" . PHP_EOL . PHP_EOL . "*Tasks:*" . PHP_EOL . PHP_EOL . "*Completed Tasks:* {$tCompletedTasks}" . PHP_EOL . "Uncompleted Tasks: {$tUnCompletedTasks}" . PHP_EOL . PHP_EOL . "Stuck or curious for more? Simply use /help or visit our platform for guidance\.",
+                    'text' => "*Airdrop Status:*" . PHP_EOL . PHP_EOL . "*Total Referrals:* {$response['totalRefferalsCount']}" . PHP_EOL . "*Total Points Earned:* {$response['totalNumberOfPointsEarned']}" . PHP_EOL . PHP_EOL . "*Tasks:*" . PHP_EOL . PHP_EOL . "*Completed Tasks:* {$tCompletedTasks}" . PHP_EOL . "Uncompleted Tasks: {$tUnCompletedTasks}" . PHP_EOL . PHP_EOL . "Stuck or curious for more? Simply use /help or visit our platform for guidance\.",
                     'parse_mode' => 'MarkdownV2',
                 ]);
             } else {
