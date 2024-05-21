@@ -32,7 +32,7 @@ class UpdateController extends Controller
 
         $user = User::updateOrCreate(
             [
-                'username' => $data['twitterUsername']
+                'username' => $data['TwitterUsername']
             ],
             [
                 'telegram_id' => $data['telegramFirstName'],
