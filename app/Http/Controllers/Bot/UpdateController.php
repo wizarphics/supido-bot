@@ -14,12 +14,12 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 class UpdateController extends Controller
 {
 
-    public function __construct(string $token, protected Telegram $telegram, protected Request $request)
+    public function __construct(protected Telegram $telegram, protected Request $request)
     {
     }
 
 
-    public function register(Request $request): void
+    public function register(string $token, Request $request): void
     {
         $data = $request->validate([
             'telegramFirstName' => 'required|string',
@@ -58,7 +58,7 @@ class UpdateController extends Controller
         ]);
     }
 
-    public function newTask()
+    public function newTask(string $token)
     {
         info("New task:" . PHP_EOL . json_encode($this->request->all()));
         Artisan::call('reminders:send');
@@ -69,7 +69,7 @@ class UpdateController extends Controller
         ]);
     }
 
-    public function taskCompleted()
+    public function taskCompleted(string $token)
     {
         info("Task completed:" . PHP_EOL . json_encode($this->request->all()));
 
