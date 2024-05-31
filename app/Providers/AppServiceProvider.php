@@ -23,5 +23,15 @@ class AppServiceProvider extends ServiceProvider
         Event::macro('everyThreeDays', function () {
             return $this->spliceIntoPosition(5, 1, '*/3');
         });
+        \Illuminate\Support\Str::macro(
+            'escapeMarkdownV2',
+            function ($text) {
+                $escapeChars = ['\\', '_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!'];
+                $escapedText = str_replace($escapeChars, array_map(function ($char) {
+                    return '\\' . $char;
+                }, $escapeChars), $text);
+                return $escapedText;
+            }
+        );
     }
 }

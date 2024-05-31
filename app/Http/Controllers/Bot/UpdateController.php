@@ -79,7 +79,7 @@ class UpdateController extends Controller
         ]);
 
         if ($user) {
-            $res = $this->telegram->sendMessage([
+            $this->telegram->sendMessage([
                 'chat_id' => $user->chat_id,
                 'text' => "🌈 Task Completed: {$this->request->questDetails}\!" . PHP_EOL . "🏆 You've just gained {$this->request->rewardPoints} points, increasing your tally to {$this->request->totalPoints} points\. Continue your engagement for even more exciting rewards\! 🌟" . PHP_EOL . PHP_EOL . "Spread the word by sharing your referral link\. Earn points for every friend who joins the SUPIDO journey\! 🌍" . PHP_EOL . "[Your SUPIDO Referral Link]($user->referral_link)",
                 'parse_mode' => 'MarkdownV2',
