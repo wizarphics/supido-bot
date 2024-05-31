@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
@@ -79,10 +80,27 @@ class UpdateController extends Controller
             'username' => $this->request->twitterScreenName,
         ]);
 
+
         if ($user) {
+
+            $userName = $user->username;
+
+            $response = Http::withHeader('adminsecretkey', env('WEB_ADMIN_SECRET', 'JHASADKsadfas123456'))
+                ->get(env('WEB_API', "https://stg-api.supido.xyz/auth/getUserData"), compact('userName'));
+
+
+            // $user->wallet_address = $response->object()->userDetails->walletAddress;
+
+            $user->referral_link = $response->object()->userDetails->referralLink;
+
+            $user->save();
+
+            $referral_link = $user->referral_link;
+            $totalNumberOfPointsEarned = $response->object()->totalNumberOfPointsEarned;
+
             $this->telegram->sendMessage([
                 'chat_id' => $user->chat_id,
-                'text' => Str::escapeMarkdownV2("🌈 Task Completed: {$this->request->questDetails}!" . PHP_EOL . "🏆 You've just gained {$this->request->rewardPoints} points, increasing your tally to {$this->request->totalPoints} points. Continue your engagement for even more exciting rewards! 🌟" . PHP_EOL . PHP_EOL . "Spread the word by sharing your referral link. Earn points for every friend who joins the SUPIDO journey! 🌍" . PHP_EOL . "[Your SUPIDO Referral Link]($user->referral_link)"),
+                'text' => Str::escapeMarkdownV2("🌈 Task Completed: {$this->request->questDetails}!" . PHP_EOL . "🏆 You've just gained {$this->request->rewardPoints} points, increasing your tally to {$totalNumberOfPointsEarned} points. Continue your engagement for even more exciting rewards! 🌟" . PHP_EOL . PHP_EOL . "Spread the word by sharing your referral link. Earn points for every friend who joins the SUPIDO journey! 🌍" . PHP_EOL . "[Your SUPIDO Referral Link]($referral_link)"),
                 'parse_mode' => 'MarkdownV2',
             ]);
 
@@ -90,5 +108,9 @@ class UpdateController extends Controller
         }
 
         return response(['error' => true, 'message' => 'User hasn\'t starred a conversation with the SUPIDO Bot'], 404);
+    }
+
+    public function updateUserDetails(User $user)
+    {
     }
 }
