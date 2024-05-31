@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
@@ -32,7 +33,7 @@ class SendTaskReminders extends Command
         $this->info('Sending reminders...');
         $this->newLine();
         $this->withProgressBar(User::all(), function (User $user) {
-            $uncompletedTasks = $this->getUncompletedTasks($user->username);
+            $uncompletedTasks = $this->getUncompletedTasks($user);
             if (count($uncompletedTasks) > 20) {
                 $this->sendReminder($user, $uncompletedTasks);
             }
@@ -64,7 +65,7 @@ class SendTaskReminders extends Command
 
         Telegram::sendMessage([
             'chat_id' => $user->chat_id,
-            'text' => "⏰ SUPIDO Wake-Up Call\! 🌠" . PHP_EOL . PHP_EOL . "Hello there\!" . PHP_EOL . "It seems you've got {$t} tasks waiting for your magic touch\. Let's dive back in and unlock those rewards awaiting you\!" . PHP_EOL . PHP_EOL . "🚀 Ready to Jump Back In?" . PHP_EOL . PHP_EOL . "1) Tap the button below\." . PHP_EOL . "2) Share your special referral link\." . PHP_EOL . "3) Encourage friends to explore SUPIDO with you\." . PHP_EOL . PHP_EOL . "Each task you complete not only brings you points but also closer to exclusive perks and a vibrant position in the SUPIDO universe\." . PHP_EOL . PHP_EOL . "🔗 Your Referral Link: {$user->referral_link}" . PHP_EOL . PHP_EOL . "Stuck or curious for more? Simply use /help or visit our platform for guidance\." . PHP_EOL . PHP_EOL . "Let's make waves together in the SUPIDO community\! 🌊✨" . PHP_EOL . PHP_EOL . "Cheers," . PHP_EOL . "The SUPIDO Team\.",
+            'text' => Str::escapeMarkdownV2("⏰ SUPIDO Wake-Up Call! 🌠" . PHP_EOL . PHP_EOL . "Hello there!" . PHP_EOL . "It seems you've got {$t} tasks waiting for your magic touch. Let's dive back in and unlock those rewards awaiting you!" . PHP_EOL . PHP_EOL . "🚀 Ready to Jump Back In?" . PHP_EOL . PHP_EOL . "1) Tap the button below." . PHP_EOL . "2) Share your special referral link." . PHP_EOL . "3) Encourage friends to explore SUPIDO with you." . PHP_EOL . PHP_EOL . "Each task you complete not only brings you points but also closer to exclusive perks and a vibrant position in the SUPIDO universe." . PHP_EOL . PHP_EOL . "🔗 Your Referral Link: {$user->referral_link}" . PHP_EOL . PHP_EOL . "Stuck or curious for more? Simply use /help or visit our platform for guidance." . PHP_EOL . PHP_EOL . "Let's make waves together in the SUPIDO community! 🌊✨" . PHP_EOL . PHP_EOL . "Cheers," . PHP_EOL . "The SUPIDO Team."),
             'parse_mode' => 'MarkdownV2',
             'reply_markup' => $k
         ]);

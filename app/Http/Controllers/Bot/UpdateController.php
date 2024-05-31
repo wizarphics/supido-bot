@@ -100,7 +100,7 @@ class UpdateController extends Controller
 
             $this->telegram->sendMessage([
                 'chat_id' => $user->chat_id,
-                'text' => Str::escapeMarkdownV2("🌈 Task Completed: {$this->request->questDetails}!" . PHP_EOL . "🏆 You've just gained {$this->request->rewardPoints} points, increasing your tally to {$totalNumberOfPointsEarned} points. Continue your engagement for even more exciting rewards! 🌟" . PHP_EOL . PHP_EOL . "Spread the word by sharing your referral link. Earn points for every friend who joins the SUPIDO journey! 🌍" . PHP_EOL . "[Your SUPIDO Referral Link]($referral_link)"),
+                'text' => Str::escapeMarkdownV2("🌈 Task Completed: {$this->request->questDetails}" . PHP_EOL . PHP_EOL . "🏆 You've just gained {$this->request->rewardPoints} points, increasing your total to {$totalNumberOfPointsEarned} points." . PHP_EOL . PHP_EOL . "Continue your engagement for even more exciting rewards! 🌟" . PHP_EOL . PHP_EOL . "Spread the word by sharing your referral link. Earn points for every friend who joins the SUPIDO journey! 🌍" . PHP_EOL.PHP_EOL)."[Your SUPIDO Referral Link](".Str::escapeMarkdownV2($referral_link).")",
                 'parse_mode' => 'MarkdownV2',
             ]);
 
