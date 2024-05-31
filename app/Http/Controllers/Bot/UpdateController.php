@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Str;
 use Telegram\Bot\Api;
 use Telegram\Bot\Keyboard\Keyboard;
 // use Telegram\Bot\Laravel\Facades\Telegram;
@@ -81,7 +82,7 @@ class UpdateController extends Controller
         if ($user) {
             $this->telegram->sendMessage([
                 'chat_id' => $user->chat_id,
-                'text' => "🌈 Task Completed: {$this->request->questDetails}\!" . PHP_EOL . "🏆 You've just gained {$this->request->rewardPoints} points, increasing your tally to {$this->request->totalPoints} points\. Continue your engagement for even more exciting rewards\! 🌟" . PHP_EOL . PHP_EOL . "Spread the word by sharing your referral link\. Earn points for every friend who joins the SUPIDO journey\! 🌍" . PHP_EOL . "[Your SUPIDO Referral Link]($user->referral_link)",
+                'text' => Str::escapeMarkdownV2("🌈 Task Completed: {$this->request->questDetails}\!" . PHP_EOL . "🏆 You've just gained {$this->request->rewardPoints} points, increasing your tally to {$this->request->totalPoints} points\. Continue your engagement for even more exciting rewards\! 🌟" . PHP_EOL . PHP_EOL . "Spread the word by sharing your referral link\. Earn points for every friend who joins the SUPIDO journey\! 🌍" . PHP_EOL . "[Your SUPIDO Referral Link]($user->referral_link)"),
                 'parse_mode' => 'MarkdownV2',
             ]);
 
